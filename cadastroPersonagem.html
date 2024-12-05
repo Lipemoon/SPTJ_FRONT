@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/cadastroPersonagem.css">
+    <script src="/scripts/personagem/cadastrar.js" defer></script>
+    <title>Cadastro de Personagem</title>
+</head>
+<body>
+    <div class="caixa"> 
+        <h1> Cadastro de Personagem </h1>
+        <form>
+            <div class="campo">
+                <label for="text"> Nome: </label>
+                <input type="text" class="name" name="name">
+            </div>
+
+            <div class="campo">
+                <label for="text"> Gênero: </label>
+                <select class="gender" name="sexo">
+                    <option value="Masculino"> Masculino </option>
+                    <option value="Feminino"> Feminino </option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="text"> Jogo: </label>
+                <input type="text" class="gameOrigin" name="gameOrigin">
+            </div>
+
+            <div class="campo">
+                <label for="file"> Foto </label>
+                <input type="file" class="foto" name="foto">
+            </div>
+
+            <button> Cadastrar </button>
+            <p class="mensagem"></p>
+        </form>
+        <button onclick="window.location.href='index.html'"> Voltar </button>
+    </div>    
+
+</body>
+</html>

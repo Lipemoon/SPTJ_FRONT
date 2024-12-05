@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/cadastroPersonagem.css">
+    <script src="/scripts/torneio/cadastrar.js" defer></script>
+    <title>Cadastro de Torneio</title>
+</head>
+<body>
+    <div class="caixa"> 
+        <h1> Cadastro de Torneio </h1>
+        <form>
+            <div class="campo">
+                <label for="text"> Nome: </label>
+                <input type="text" id="name">
+            </div>
+
+            <div class="campo">
+                <label for="text"> Categoria de Gênero: </label>
+                <select id="gender">
+                    <option value="Masculino"> Masculino </option>
+                    <option value="Feminino"> Feminino </option>
+                    <option value="Ambos"> Masculino e Feminino </option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="text"> Jogo: </label>
+                <input type="text" id="gameOrigin">
+            </div>
+
+            <div class="campo">
+                <label for="text"> Formato: </label>
+                <select id="format">
+                    <option value="1v1"> 1v1 </option>
+                    <option value="2v2"> 2v2 </option>
+                    <option value="3v3"> 3v3 </option>
+                    <option value="4v4"> 4v4 </option>
+                    <option value="5v5"> 5v5 </option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="file"> Foto </label>
+                <input type="file" id="foto">
+            </div>
+
+            <button> Cadastrar </button>
+            <p class="mensagem"></p>
+        </form>
+        <button onclick="window.location.href='index.html'"> Voltar </button>
+    </div>    
+
+</body>
+</html>

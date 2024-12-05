@@ -1,0 +1,111 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+
+  }
+  
+  .titulo {
+    font-size: 72px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .battle-container {
+    margin-top: 50px;
+    max-width: 90%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    margin-left: auto; 
+    margin-right: auto;
+   
+  }
+  
+  .cards-left, .cards-right {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 20px;
+  }
+  
+  .card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 260px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .card img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .card h3 {
+    font-size: 24px;
+  }
+  
+  .card p {
+    font-size: 20px;
+    color: #555;
+  }
+  
+  .vs-text {
+    font-size: 120px;
+    font-weight: bold;
+    color: #ff0000;
+    text-align: center;
+  
+  }
+  
+  #choose-winner-btn {
+    background-color: #ff0000;
+    color: #fff;
+    font-size: 24px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.3s ease;
+  }
+  
+  #choose-winner-btn:hover {
+    background-color: #cc0000;
+  }
+  
+  #result-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  #result-container input {
+    font-size: 18px;
+    padding: 10px;
+    width: 300px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
