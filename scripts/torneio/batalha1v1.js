@@ -1,51 +1,62 @@
-const battleData = JSON.parse(localStorage.getItem("battleData"));
+let idTorneio;
 
-const idTorneio = localStorage.getItem("idTorneio");
+async function iniciarBatalhaTorneio() {
+    idTorneio = prompt("Digite o ID do Torneio:");
+    if (!idTorneio) {
+        mensagemErro("ID do Torneio é obrigatório.");
+    }
+    const res = await fetch(`http://localhost:8080/sptj/tournaments/1v1/${idTorneio}/startMatch`, {
+        mode: "cors",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        },
+            method: "POST",
+        });
 
-if (battleData) {
-    // Atualiza os dados do jogador 1
-    document.querySelector(".id-left").textContent = `ID: ${battleData.player1.id}`;
-    document.querySelector(".name-left").textContent = `Nome: ${battleData.player1.name}`;
-    document.querySelector(".gender-left").textContent = `Gênero: ${battleData.player1.gender}`;
-    document.querySelector(".game-left").textContent = `Jogo: ${battleData.player1.gameOrigin}`;
+        if (res.status != 200) {
+            const exception = await res.json();
+            mensagemErro(exception.error);
+        } else {
+            const batalha = await res.json();
+            document.querySelector(".id-left").textContent = `ID: ${batalha.player1.id}`;
+            document.querySelector(".name-left").textContent = `Nome: ${batalha.player1.name}`;
+            document.querySelector(".gender-left").textContent = `Gênero: ${batalha.player1.gender}`;
+            document.querySelector(".game-left").textContent = `Jogo: ${batalha.player1.gameOrigin}`;
 
-    // Atualiza os dados do jogador 2
-    document.querySelector(".id-right").textContent = `ID: ${battleData.player2.id}`;
-    document.querySelector(".name-right").textContent = `Nome: ${battleData.player2.name}`;
-    document.querySelector(".gender-right").textContent = `Gênero: ${battleData.player2.gender}`;
-    document.querySelector(".game-right").textContent = `Jogo: ${battleData.player2.gameOrigin}`;
-} else {
-    alert("Nenhuma batalha foi iniciada. Por favor, volte e inicie uma batalha.");
-    window.location.href = "../iniciarBatalha1v1.html";
+            document.querySelector(".id-right").textContent = `ID: ${batalha.player2.id}`;
+            document.querySelector(".name-right").textContent = `Nome: ${batalha.player2.name}`;
+            document.querySelector(".gender-right").textContent = `Gênero: ${batalha.player2.gender}`;
+            document.querySelector(".game-right").textContent = `Jogo: ${batalha.player2.gameOrigin}`;
+        }
 }
 
-document.getElementById("choose-winner-btn").addEventListener("click", () => {
-    const winnerId = prompt("Digite o ID do vencedor:");
+function mensagemErro(error) {
+    alert(error);
+    window.location.href = "index.html";
+}
 
-    if (winnerId) {
-        // Chama a API para registrar o vencedor
-        fetch(`http://localhost:8080/sptj/tournaments/1v1/${idTorneio}/chooseWinner/${winnerId}`, {
-            mode: 'cors',
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            method: "POST",
-        })
-        .then(res => {
-            if (!res.ok) {
-                throw new Error("Erro ao declarar o vencedor.");
-            }
-            return res.json();
-        })
-        .then(data => {
-            alert(`Vencedor registrado com sucesso! Nome: ${data.winner.name}`);
-            window.location.href = "../iniciarBatalha1v1.html";
-        })
-        .catch(error => {
-            alert(`Erro ao registrar o vencedor: ${error.message}`);
-        });
+document.getElementById("choose-winner-btn").addEventListener("click", async () => {
+    const winnerId = prompt("Digite o ID do vencedor:");
+    if (!winnerId) {
+        alert("O ID do vencedor é obrigatório.");
+    }
+    const res = await fetch(`http://localhost:8080/sptj/tournaments/1v1/${idTorneio}/chooseWinner/${winnerId}`, {
+        mode: "cors",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+    });
+    if (res.status != 200) {
+        const exception = await res.json();
+        mensagemErro(exception.error);
     } else {
-        alert("Você deve inserir um ID válido.");
+        const result = await res.json();
+        alert(`${result.message}`);
+        window.location.href = "index.html";
     }
 });
+
+document.addEventListener("DOMContentLoaded", iniciarBatalhaTorneio);

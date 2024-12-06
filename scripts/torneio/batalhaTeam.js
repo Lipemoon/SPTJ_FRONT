@@ -1,53 +1,110 @@
-const battleTeam = JSON.parse(localStorage.getItem("battleTeam"));
-const idTorneio = localStorage.getItem("idTorneio");
+let idTorneio;
 
-if (battleTeam) {
-    const playersLeftContainer = document.querySelector(".players-left");
-    const playersRightContainer = document.querySelector(".players-right");
+async function iniciarBatalhaTorneioTeam() {
+    idTorneio = prompt("Digite o ID do Torneio:");
+    if (!idTorneio) {
+        mensagemErro("ID do Torneio é obrigatório.");
+    }
+    const res = await fetch(`http://localhost:8080/sptj/tournaments/teams/${idTorneio}/startMatch`, {
+        mode: 'cors',
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json" 
+        },
+        method: "POST",
+    })
+    if (res.status != 200) {
+        const exception = await res.json();
+        mensagemErro(exception.error);
+    } else {
+        const batalha = await res.json();
+        const playersLeft = document.querySelector(".cards-left");
 
-    // Exibe os jogadores do time 1
-    const team1Id = Object.keys(battleTeam.team1)[0]; // Obtém o ID do time 1
-    const team1Players = battleTeam.team1[team1Id];
+        const idTeam1 = Object.keys(batalha.team1)[0];
+        const team1Div = document.createElement('div');
+        team1Div.textContent= `Id Team: ${idTeam1}`;
+        playersLeft.appendChild(team1Div);
 
-    team1Players.forEach(player => {
-        const playerCard = document.createElement("div");
-        playerCard.classList.add("card");
-        playerCard.innerHTML = `
-            <p>ID: ${player.id}</p>
-            <p>Nome: ${player.name}</p>
-            <p>Gênero: ${player.gender}</p>
-            <p>Jogo: ${player.gameOrigin}</p>
-        `;
-        playersLeftContainer.appendChild(playerCard);
-    });
+        const playersTeam1 = batalha.team1[idTeam1];
+            
+        playersTeam1.forEach(player => {
+            const playerCard = document.createElement('div');
+            playerCard.classList.add("card");
 
-    // Exibe os jogadores do time 2
-    const team2Id = Object.keys(battleTeam.team2)[0]; // Obtém o ID do time 2
-    const team2Players = battleTeam.team2[team2Id];
+            const infoImg = document.createElement('img');
+            infoImg.src = 'https://via.placeholder.com/400x600';
 
-    team2Players.forEach(player => {
-        const playerCard = document.createElement("div");
-        playerCard.classList.add("card");
-        playerCard.innerHTML = `
-            <p>ID: ${player.id}</p>
-            <p>Nome: ${player.name}</p>
-            <p>Gênero: ${player.gender}</p>
-            <p>Jogo: ${player.gameOrigin}</p>
-        `;
-        playersRightContainer.appendChild(playerCard);
-    });
-} else {
-    alert("Nenhuma batalha foi iniciada. Por favor, volte e inicie uma batalha.");
-    window.location.href = "../iniciarBatalhaTeam.html";
+            const infoId = document.createElement('div');
+            infoId.textContent = `Id: ${player.id}`;
+
+            const infoName = document.createElement('div');
+            infoName.textContent = `Nome: ${player.name}`;
+
+            const infoGender = document.createElement('div');
+            infoGender.textContent = `Gênero: ${player.gender}`;
+
+            const infoGame = document.createElement('div');
+            infoGame.textContent = `Jogo de Origem: ${player.gameOrigin}`;
+
+            playerCard.appendChild(infoImg);
+            playerCard.appendChild(infoId);
+            playerCard.appendChild(infoName);
+            playerCard.appendChild(infoGender);
+            playerCard.appendChild(infoGame);
+
+            playersLeft.appendChild(playerCard);
+        })
+        
+        const playersRight = document.querySelector(".cards-right");
+        const idTeam2 = Object.keys(batalha.team2)[0];
+        const team2Div = document.createElement('div');
+        team2Div.textContent= `Id Team: ${idTeam2}`;
+        playersRight.appendChild(team2Div);
+
+        const playersTeam2 = batalha.team2[idTeam2];
+            
+        playersTeam2.forEach(player => {
+            const playerCard = document.createElement('div');
+            playerCard.classList.add("card");
+
+            const infoImg = document.createElement('img');
+            infoImg.src = 'https://via.placeholder.com/400x600';
+
+            const infoId = document.createElement('div');
+            infoId.textContent = `Id: ${player.id}`;
+
+            const infoName = document.createElement('div');
+            infoName.textContent = `Nome: ${player.name}`;
+
+            const infoGender = document.createElement('div');
+            infoGender.textContent = `Gênero: ${player.gender}`;
+
+            const infoGame = document.createElement('div');
+            infoGame.textContent = `Jogo de Origem: ${player.gameOrigin}`;
+
+            playerCard.appendChild(infoImg);
+            playerCard.appendChild(infoId);
+            playerCard.appendChild(infoName);
+            playerCard.appendChild(infoGender);
+            playerCard.appendChild(infoGame);
+
+            playersRight.appendChild(playerCard);
+        })
+    }
 }
 
-// Botão para escolher vencedor
-document.getElementById("choose-winner-btn").addEventListener("click", () => {
-    const winnerId = prompt("Digite o ID Time vencedor:");
+function mensagemErro(error) {
+    alert(error);
+    window.location.href = "index.html";
+}
 
-    if (winnerId) {
-        // Chama a API para registrar o vencedor
-        fetch(`http://localhost:8080/sptj/tournaments/teams/${idTorneio}/chooseWinner/${winnerId}`, {
+document.getElementById("choose-winner-btn").addEventListener("click", async () => {
+    const winnerTeamId = prompt("Digite o ID Time vencedor:");
+    if (!winnerTeamId) {
+        alert("O ID do Time vencedor é obrigatório.");
+    }
+    if (winnerTeamId) {
+        const res = await fetch(`http://localhost:8080/sptj/tournaments/teams/${idTorneio}/chooseWinner/${winnerTeamId}`, {
             mode: 'cors',
             headers: {
                 "Accept": "application/json",
@@ -55,20 +112,15 @@ document.getElementById("choose-winner-btn").addEventListener("click", () => {
             },
             method: "POST",
         })
-        .then(res => {
-            if (!res.ok) {
-                throw new Error("Erro ao declarar o vencedor.");
-            }
-            return res.json();
-        })
-        .then(data => {
-            alert(`Vencedor registrado com sucesso! Nome: ${data.winner.name}`);
-            window.location.href = "../iniciarBatalhaTeam.html";
-        })
-        .catch(error => {
-            alert(`Erro ao registrar o vencedor: ${error.message}`);
-        });
-    } else {
-        alert("Você deve inserir um ID válido.");
+        if (res.status != 200) {
+            const exception = await res.json();
+            mensagemErro(exception.error);
+        } else {
+            const result = await res.json();
+            alert(`${result.message}`);
+            window.location.href = "index.html";
+        }
     }
 });
+
+document.addEventListener("DOMContentLoaded", iniciarBatalhaTorneioTeam);

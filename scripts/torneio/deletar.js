@@ -2,8 +2,8 @@ const formulario = document.querySelector("form");
 
 const idTorneio = document.querySelector(".id");
 
-function deletarTorneio() {
-    fetch(`http://localhost:8080/sptj/tournaments/${idTorneio.value}`, {
+async function deletarTorneio() {
+    const response = await fetch(`http://localhost:8080/sptj/tournaments/${idTorneio.value}`, {
         mode: 'cors',
         headers: {
             "Accept": "application/json",
@@ -11,15 +11,12 @@ function deletarTorneio() {
         },
         method: "DELETE",
     })
-    .then(res => {
-        return res.json();
-    })
-    .then(res => {
-        mensagemSucesso(res); 
-    })
-    .catch(error => {
-        mensagemErro(error);
-    });
+    if(response.status != 204){
+        const exception = await response.json();
+        mensagemErro(exception.error);
+    } else {
+        mensagemSucesso();
+    }
 }
 
 function mensagemSucesso() {
@@ -32,9 +29,9 @@ function mensagemSucesso() {
     }, 5000);
 }
 
-function mensagemErro() {
+function mensagemErro(error) {
     const mensagem = document.querySelector(".mensagem");
-    mensagem.innerHTML="Erro ao Deletar o Torneio!";
+    mensagem.innerHTML=error;
     mensagem.style.color = "red";
     setTimeout(function() {
         mensagem.innerHTML = "";

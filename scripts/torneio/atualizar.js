@@ -5,10 +5,10 @@ const updateName = document.querySelector(".name");
 const updategender = document.querySelector(".gender");
 const updategameOrigin = document.querySelector(".gameOrigin");
 const updateFormat = document.querySelector(".format");
-const updateFoto = document.querySelector(".foto");
+//const updateFoto = document.querySelector(".foto");
 
-function atualizarTorneio() {
-    fetch(`http://localhost:8080/sptj/tournaments/${idTorneio.value}`, {
+async function atualizarTorneio() {
+    const res = await fetch(`http://localhost:8080/sptj/tournaments/${idTorneio.value}`, {
         mode: 'cors',
         headers: {
             "Accept": "application/json",
@@ -17,20 +17,17 @@ function atualizarTorneio() {
         method: "PUT",
         body: JSON.stringify({
             name: updateName.value,
-            gender: updategender.value,
+            categoryByGenre: updategender.value,
             gameOrigin: updategameOrigin.value,
             format: updateFormat.value
         })
     })
-    .then(res => {
-        return res.json();
-    })
-    .then(res => {
-        mensagemSucesso(res); 
-    })
-    .catch(error => {
-        mensagemErro(error);
-    });
+    if(res.status != 200){
+        const exception = await res.json();
+        mensagemErro(exception.error);
+    } else {
+        mensagemSucesso();
+    }
 }
 
 function mensagemSucesso() {
@@ -43,9 +40,9 @@ function mensagemSucesso() {
     }, 5000);
 }
 
-function mensagemErro() {
+function mensagemErro(error) {
     const mensagem = document.querySelector(".mensagem");
-    mensagem.innerHTML="Erro ao Atualizar o Torneio!";
+    mensagem.innerHTML=error;
     mensagem.style.color = "red";
     setTimeout(function() {
         mensagem.innerHTML = "";
@@ -59,7 +56,7 @@ function limparInputs() {
     updategender.value = "";
     updategameOrigin.value = "";
     updateFormat.value = "";
-    updateFoto.value = "";
+    //updateFoto.value = "";
 }
 
 formulario.addEventListener("submit", function (event) {

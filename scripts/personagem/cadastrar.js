@@ -3,10 +3,10 @@ const formulario = document.querySelector("form");
 const inputName = document.querySelector(".name");
 const inputgender = document.querySelector(".gender");
 const inputgameOrigin = document.querySelector(".gameOrigin");
-const inputFoto = document.querySelector(".foto");
+//const inputFoto = document.querySelector(".foto");
 
-function cadastrarPersonagem() {
-    fetch("http://localhost:8080/sptj/characters", {
+async function cadastrarPersonagem() {
+    const res = await fetch("http://localhost:8080/sptj/characters", {
         mode: 'cors',
         headers: {
             "Accept": "application/json",
@@ -19,15 +19,12 @@ function cadastrarPersonagem() {
             gameOrigin: inputgameOrigin.value,
         })
     })
-    .then(res => {
-        return res.json();
-    })
-    .then(res => {
-        mensagemSucesso(res); 
-    })
-    .catch(error => {
-        mensagemErro(error);
-    });
+    if(res.status != 201){
+        const exception = await res.json();
+        mensagemErro(exception.error);
+    } else {
+        mensagemSucesso();
+    }
 }
 
 function mensagemSucesso() {
@@ -40,9 +37,9 @@ function mensagemSucesso() {
     }, 5000);
 }
 
-function mensagemErro() {
+function mensagemErro(error) {
     const mensagem = document.querySelector(".mensagem");
-    mensagem.innerHTML="Erro ao Cadastrar o Personagem!";
+    mensagem.innerHTML=error;
     mensagem.style.color = "red";
     setTimeout(function() {
         mensagem.innerHTML = "";
@@ -54,7 +51,7 @@ function limparInputs() {
     inputName.value = "";
     inputgender.value = "";
     inputgameOrigin.value = "";
-    inputFoto.value = "";
+    //inputFoto.value = "";
 }
 
 formulario.addEventListener("submit", function (event) {
@@ -63,3 +60,23 @@ formulario.addEventListener("submit", function (event) {
     limparInputs();
 
 })
+
+document.querySelector(".foto").addEventListener("change", function (event) {
+    const file = event.target.files[0]; // Obtém o arquivo selecionado
+
+    if (file) {
+        // Verifica se o arquivo é uma imagem
+        if (file.type.startsWith("image/")) {
+            const reader = new FileReader(); // Cria um FileReader para ler o arquivo
+
+            reader.onload = function (e) {
+                // Define o src do elemento img com os dados da imagem
+                const preview = document.getElementById("image-preview");
+                preview.src = e.target.result;
+                preview.style.display = "block"; // Mostra o elemento img
+            };
+
+            reader.readAsDataURL(file); // Lê o arquivo como uma URL de dados
+        }
+    }
+});

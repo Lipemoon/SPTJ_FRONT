@@ -9,17 +9,21 @@ function verTodosTorneios() {
         },
         method: "GET",
     })
-    .then(response => response.json()) 
+    .then(res => res.json()) 
     .then(torneios => {
         torneios.forEach(torneio => {
             
             const torneioDiv = document.createElement('div');
             torneioDiv.classList.add('item');
 
+            const infoImg = document.createElement('img');
+            infoImg.classList.add('info');
+            infoImg.src = 'https://via.placeholder.com/400x600';
+
             const infoId = document.createElement('div');
             infoId.classList.add('info');
             infoId.textContent = `Id: ${torneio.id}`;
-
+            
             const infoName = document.createElement('div');
             infoName.classList.add('info');
             infoName.textContent = `Nome: ${torneio.name}`;
@@ -36,11 +40,29 @@ function verTodosTorneios() {
             infoFormat.classList.add('info');
             infoFormat.textContent = `Formato: ${torneio.format}`;
 
+            const infoStatus = document.createElement('div');
+            infoStatus.classList.add('info');
+            infoStatus.textContent = `Status: ${torneio.status}`;
+
+           const listCharacters = document.createElement('div');
+           listCharacters.classList.add('info');
+           listCharacters.textContent = 'Personagens:';
+
+            torneio.characters.forEach(personagemId => {
+                const lista = document.createElement('li');
+                lista.classList.add('info');
+                lista.textContent = `Id: ${personagemId}`;
+                listCharacters.appendChild(lista);
+            });
+    
+            torneioDiv.appendChild(infoImg);
             torneioDiv.appendChild(infoId);
             torneioDiv.appendChild(infoName);
             torneioDiv.appendChild(infoGender);
             torneioDiv.appendChild(infoGame);
             torneioDiv.appendChild(infoFormat);
+            torneioDiv.appendChild(infoStatus);
+            torneioDiv.appendChild(listCharacters);
 
             tabela.appendChild(torneioDiv);
         });

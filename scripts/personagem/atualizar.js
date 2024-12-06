@@ -4,10 +4,10 @@ const idPersonagem = document.querySelector(".id");
 const updateName = document.querySelector(".name");
 const updategender = document.querySelector(".gender");
 const updategameOrigin = document.querySelector(".gameOrigin");
-const updateFoto = document.querySelector(".foto");
+//const updateFoto = document.querySelector(".foto");
 
-function atualizarPersonagem() {
-    fetch(`http://localhost:8080/sptj/characters/${idPersonagem.value}`, {
+async function atualizarPersonagem() {
+    const res = await fetch(`http://localhost:8080/sptj/characters/${idPersonagem.value}`, {
         mode: 'cors',
         headers: {
             "Accept": "application/json",
@@ -20,15 +20,12 @@ function atualizarPersonagem() {
             gameOrigin: updategameOrigin.value,
         })
     })
-    .then(res => {
-        return res.json();
-    })
-    .then(res => {
-        mensagemSucesso(res); 
-    })
-    .catch(error => {
-        mensagemErro(error);
-    });
+    if(res.status != 200){
+        const exception = await res.json();
+        mensagemErro(exception.error);
+    } else {
+        mensagemSucesso();
+    }
 }
 
 function mensagemSucesso() {
@@ -41,9 +38,9 @@ function mensagemSucesso() {
     }, 5000);
 }
 
-function mensagemErro() {
+function mensagemErro(error) {
     const mensagem = document.querySelector(".mensagem");
-    mensagem.innerHTML="Erro ao Atualizar o Personagem!";
+    mensagem.innerHTML=error;
     mensagem.style.color = "red";
     setTimeout(function() {
         mensagem.innerHTML = "";
@@ -56,7 +53,7 @@ function limparInputs() {
     updateName.value = "";
     updategender.value = "";
     updategameOrigin.value = "";
-    updateFoto.value = "";
+    //updateFoto.value = "";
 }
 
 formulario.addEventListener("submit", function (event) {

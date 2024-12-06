@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/cadastroPersonagem.css">
-    <script src="/scripts/personagem/cadastrar.js" defer></script>
+    <link rel="stylesheet" href="styles/cadastroPersonagem.css">
+    <script src="scripts/personagem/cadastrar.js" defer></script>
     <title>Cadastro de Personagem</title>
 </head>
 <body>
@@ -13,12 +13,12 @@
         <form>
             <div class="campo">
                 <label for="text"> Nome: </label>
-                <input type="text" class="name" name="name">
+                <input type="text" class="name" name="name" required>
             </div>
 
             <div class="campo">
                 <label for="text"> Gênero: </label>
-                <select class="gender" name="sexo">
+                <select class="gender" name="sexo" required>
                     <option value="Masculino"> Masculino </option>
                     <option value="Feminino"> Feminino </option>
                 </select>
@@ -26,12 +26,16 @@
 
             <div class="campo">
                 <label for="text"> Jogo: </label>
-                <input type="text" class="gameOrigin" name="gameOrigin">
+                <input type="text" class="gameOrigin" name="gameOrigin" required>
             </div>
 
             <div class="campo">
                 <label for="file"> Foto </label>
                 <input type="file" class="foto" name="foto">
+            </div>
+
+            <div class="campo">
+                <img id="image-preview">
             </div>
 
             <button> Cadastrar </button>

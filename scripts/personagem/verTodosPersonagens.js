@@ -9,12 +9,16 @@ function verTodosPersonagens() {
         },
         method: "GET",
     })
-    .then(response => response.json()) 
+    .then(res => res.json()) 
     .then(personagens => {
         personagens.forEach(personagem => {
 
             const personagemDiv = document.createElement('div');
             personagemDiv.classList.add('item');
+
+            const infoImg = document.createElement('img');
+            infoImg.classList.add('info');
+            infoImg.src = 'https://via.placeholder.com/400x600';
 
             const infoId = document.createElement('div');
             infoId.classList.add('info');
@@ -32,6 +36,7 @@ function verTodosPersonagens() {
             infoGame.classList.add('info');
             infoGame.textContent = `Jogo de Origem: ${personagem.gameOrigin}`;
 
+            personagemDiv.appendChild(infoImg);
             personagemDiv.appendChild(infoId);
             personagemDiv.appendChild(infoName);
             personagemDiv.appendChild(infoGender);

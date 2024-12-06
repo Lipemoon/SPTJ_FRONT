@@ -69,4 +69,10 @@ button:hover {
     background-color: lightblue;
 }
 
-
+#image-preview {
+    display: inline-block; /* Garante que o `img` seja tratado como inline para centralizar */
+    max-width: 100%;      /* Ajusta a largura ao tamanho do container */
+    max-height: 300px;    /* Define uma altura máxima para evitar distorções */
+    border: 1px solid #ccc; /* Opcional: adiciona borda para destacar a imagem */
+    border-radius: 8px;    /* Bordas arredondadas para aparência mais suave */
+}

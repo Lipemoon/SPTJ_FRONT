@@ -1,17 +1,13 @@
 const formulario = document.querySelector("form");
 
-function cadastrarTorneio() {
 const inputName = document.getElementById("name");
 const inputgender = document.getElementById("gender");
 const inputgameOrigin = document.getElementById("gameOrigin");
 const inputFormat = document.getElementById("format");
 //const inputFoto = document.getElementById("foto");
 
-console.log(inputName.value);
-console.log(inputgender.value);
-console.log(inputgameOrigin.value);
-console.log(inputFormat.value);
-    fetch("http://localhost:8080/sptj/tournaments", {
+async function cadastrarTorneio() {
+    const res = await fetch("http://localhost:8080/sptj/tournaments", {
         mode: 'cors',
         headers: {
             "Accept": "application/json",
@@ -21,19 +17,16 @@ console.log(inputFormat.value);
         body: JSON.stringify({
             name: inputName.value,
             gameOrigin: inputgameOrigin.value,
-            gender: inputgender.value,
+            categoryByGenre: inputgender.value,
             format: inputFormat.value
         })
     })
-    .then(res => {
-        return res.json();
-    })
-    .then(res => {
-        mensagemSucesso(res); 
-    })
-    .catch(error => {
-        mensagemErro(error);
-    });
+    if(res.status != 201){
+        const exception = await res.json();
+        mensagemErro(exception.error);
+    } else {
+        mensagemSucesso();
+    }
 }
 
 function mensagemSucesso() {
@@ -46,9 +39,9 @@ function mensagemSucesso() {
     }, 5000);
 }
 
-function mensagemErro() {
+function mensagemErro(error) {
     const mensagem = document.querySelector(".mensagem");
-    mensagem.innerHTML="Erro ao Cadastrar o Torneio!";
+    mensagem.innerHTML=error;
     mensagem.style.color = "red";
     setTimeout(function() {
         mensagem.innerHTML = "";
