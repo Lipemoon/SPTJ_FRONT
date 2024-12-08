@@ -32,7 +32,7 @@ h1 {
   .item {
     display: flex;
     flex-direction: column; 
-    width: 190px; /* Largura fixa para cada item */
+    width: 190px; 
     text-align: center; /* Deixando assim as informações ficam no centro, tirando ela fica no limite da borda*/
     border: 3px solid black;
     padding: 10px;
@@ -42,7 +42,7 @@ h1 {
   
   .item img {
     height: 180px;
-    max-width: 100%; /* Faz com que a imagem não ultrapasse o tamanho do item */
+    max-width: 100%;
     border-radius: 4px;
   }
   

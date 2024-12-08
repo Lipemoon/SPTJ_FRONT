@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: linear-gradient(to bottom, rgb(6, 29, 37) 0%, rgb(2, 15, 21) 100%); /* chatzin né*/
+    color: white;
+}
+
+.container {
+    display: flex;  
+}
+
+.information {
+    display: flex;
+    align-items: center;    
+    gap: 50px;     
+    margin-top: -20%;
+}
+
+.information img{
+    width: 320px;
+    border-radius: 3%;
+    padding: 5%;
+    border-right: 1px solid white;
+}
+
+.description h1{
+    font-size: 4vw;   
+}
+
+.description p{
+    font-size: 20px;
+    padding: 2%;
+}
+
+.description span {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+.characters {
+    width: 1000px;
+    margin-left: 2%;
+}
+
+.characters li:hover {
+    background-color: #3D9DAB;
+} 
+
+.characters ul {
+    max-height: 150px;
+    overflow: auto; 
+}
+
+.characters li {
+    font-size: 20px;
+    border: 1px solid white;
+    margin-bottom: 10px; 
+    padding: 10px; 
+    border-radius: 15px;  
+    color: #ffffff; 
+}
+
+.characters-active {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 2%;
+    border: 1px solid white;
+    border-radius: 15px; 
+}
+
+.characters-phase {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 2%;
+    border: 1px solid white;
+    border-radius: 15px; 
+}
+
+.teams {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 2%;
+    border: 1px solid white;
+    border-radius: 15px; 
+}
+
+
+.header {
+    color: white; 
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2); /* chatinzin né */
+}
+
+
+.nav li {
+    display: inline;
+}
+
+.nav a {
+    color: white; 
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.nav a:hover {
+    background-color: #3D9DAB;
+    transition: background-color 1.1s;
+}

@@ -43,18 +43,13 @@ function verTodosTorneios() {
             const infoStatus = document.createElement('div');
             infoStatus.classList.add('info');
             infoStatus.textContent = `Status: ${torneio.status}`;
+            
+            /*
+            const maisInformação = document.createElement('button');
+            maisInformação.classList.add('info');
+            maisInformação.textContent = "Mais Informações";
+            */
 
-           const listCharacters = document.createElement('div');
-           listCharacters.classList.add('info');
-           listCharacters.textContent = 'Personagens:';
-
-            torneio.characters.forEach(personagemId => {
-                const lista = document.createElement('li');
-                lista.classList.add('info');
-                lista.textContent = `Id: ${personagemId}`;
-                listCharacters.appendChild(lista);
-            });
-    
             torneioDiv.appendChild(infoImg);
             torneioDiv.appendChild(infoId);
             torneioDiv.appendChild(infoName);
@@ -62,7 +57,7 @@ function verTodosTorneios() {
             torneioDiv.appendChild(infoGame);
             torneioDiv.appendChild(infoFormat);
             torneioDiv.appendChild(infoStatus);
-            torneioDiv.appendChild(listCharacters);
+            //torneioDiv.appendChild(maisInformação);
 
             tabela.appendChild(torneioDiv);
         });

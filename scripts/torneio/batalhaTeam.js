@@ -16,6 +16,8 @@ async function iniciarBatalhaTorneioTeam() {
     if (res.status != 200) {
         const exception = await res.json();
         mensagemErro(exception.error);
+    } else if (res.statusTournament === "Tournament Finalized") {
+        window.location.href = "verVencedoresTorneio.html";
     } else {
         const batalha = await res.json();
         const playersLeft = document.querySelector(".cards-left");
